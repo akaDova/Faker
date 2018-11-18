@@ -26,7 +26,8 @@ namespace FakerLib
         {
             object creationResult = null;
 
-            if ()
+            if (type.IsPrimitive)
+
             // check random value generator (built-in plugins)
 
             // check & pick constructor 
@@ -64,21 +65,20 @@ namespace FakerLib
         }
         
         
-        V GenerateRandomValue<T, V>(T Generator) where T: IGeneratable
+        V GenerateRandomValue<V>(IGeneratable<V> Generator)
         {
-            return Generator.GenerateValue<V>();
+            return Generator.GenerateValue();
         }
 
-        //private T Create<T>(Type type, params object[] args)
-        //{
-        //    return (T)Activator.CreateInstance(type, args);
-        //}
+ 
 
     }
 
-    interface IGeneratable
+
+
+    interface IGeneratable<T>
     {
-        T GenerateValue<T>();
+        T GenerateValue();
     }
 }
 
