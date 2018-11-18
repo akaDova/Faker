@@ -9,5 +9,14 @@ namespace GeneratorLib
     interface IGeneratable<T>
     {
         T GenerateValue();
+        //Type GeneratableType
+        //{
+        //    get;
+        //}
+    }
+
+    interface IGeneratable
+    {
+        object GenerateValue();
     }
 }

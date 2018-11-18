@@ -40,8 +40,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Generators.cs" />
+    <Compile Include="GenericTypes\IGenericGeneratable.cs" />
+    <Compile Include="GenericTypes\ListGenerator.cs" />
+    <Compile Include="PrimitiveTypes\BooleanGenerator.cs" />
+    <Compile Include="PrimitiveTypes\ByteGenerator.cs" />
     <Compile Include="IGeneratable.cs" />
+    <Compile Include="PrimitiveTypes\CharGenerator.cs" />
+    <Compile Include="PrimitiveTypes\DecimalGenerator.cs" />
+    <Compile Include="PrimitiveTypes\DoubleGenerator.cs" />
+    <Compile Include="PrimitiveTypes\Int16Generator.cs" />
+    <Compile Include="PrimitiveTypes\Int32Generator.cs" />
+    <Compile Include="PrimitiveTypes\Int64Generator.cs" />
+    <Compile Include="PrimitiveTypes\SingleGenerator.cs" />
+    <Compile Include="PrimitiveTypes\UInt32Generator.cs" />
+    <Compile Include="PrimitiveTypes\UInt64Generator.cs" />
+    <Compile Include="PrimitiveTypes\UInt16Generator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PrimitiveTypes\SByteGenerator.cs" />
+    <Compile Include="StringType\StringGenerator.cs" />
+    <Compile Include="CustomTypes\UriGenerator.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
