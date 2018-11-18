@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GeneratorLib.PrimitiveTypes
 {
-    class SingleGenerator : IGeneratable<float>
+    public class SingleGenerator : IGeneratable<float>
     {
         public float GenerateValue()
         {

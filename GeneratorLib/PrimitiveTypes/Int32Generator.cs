@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace GeneratorLib.PrimitiveTypes
 {
-    class Int32Generator : IGeneratable<int>
+    public class Int32Generator : IGeneratable<int>
     {
+        private Random random = new Random();
         public int GenerateValue()
         {
             var random = new Random();
-            return random.Next();
+            return this.random.Next();
         }
     }
 }

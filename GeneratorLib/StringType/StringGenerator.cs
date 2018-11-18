@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GeneratorLib.StringType
 {
-    class StringGenerator : IGeneratable<string>
+    public class StringGenerator : IGeneratable<string>
     {
         public string GenerateValue()
         {

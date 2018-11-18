@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GeneratorLib.CustomTypes
 {
-    class UriGenerator : IGeneratable<Uri>
+    public class UriGenerator : IGeneratable<Uri>
     {
         public Uri GenerateValue()
         {

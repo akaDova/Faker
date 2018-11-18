@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GeneratorLib
 {
-    interface IGeneratable<T>
+    public interface IGeneratable<T>
     {
         T GenerateValue();
         //Type GeneratableType

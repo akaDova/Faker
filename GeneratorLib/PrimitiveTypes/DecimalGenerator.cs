@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GeneratorLib.PrimitiveTypes
 {
-    class DecimalGenerator : IGeneratable<decimal>
+    public class DecimalGenerator : IGeneratable<decimal>
     {
         public decimal GenerateValue()
         {

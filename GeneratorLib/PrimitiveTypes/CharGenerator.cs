@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GeneratorLib.PrimitiveTypes
 {
-    class CharGenerator : IGeneratable<char>
+    public class CharGenerator : IGeneratable<char>
     {
         public char GenerateValue()
         {

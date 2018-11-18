@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GeneratorLib.PrimitiveTypes
 {
-    class Int64Generator : IGeneratable<long>
+    public class Int64Generator : IGeneratable<long>
     {
         public long GenerateValue()
         {

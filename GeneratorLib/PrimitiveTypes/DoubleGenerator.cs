@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GeneratorLib.PrimitiveTypes
 {
-    class DoubleGenerator : IGeneratable<double>
+    public class DoubleGenerator : IGeneratable<double>
     {
         public double GenerateValue()
         {

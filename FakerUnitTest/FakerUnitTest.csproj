@@ -60,6 +60,10 @@
       <Project>{6a59db5f-a97a-4884-936d-a8936ea082ca}</Project>
       <Name>FakerLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GeneratorLib\GeneratorLib.csproj">
+      <Project>{2fcaaf61-2217-499a-9154-1685f443e9e7}</Project>
+      <Name>GeneratorLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

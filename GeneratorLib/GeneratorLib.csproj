@@ -42,7 +42,8 @@
   <ItemGroup>
     <Compile Include="Generators.cs" />
     <Compile Include="GenericTypes\IGenericGeneratable.cs" />
-    <Compile Include="GenericTypes\ListGenerator.cs" />
+    <Compile Include="GenericTypes\CollectionGenerator.cs" />
+    <Compile Include="PrimitiveTypes\BaseGenerator.cs" />
     <Compile Include="PrimitiveTypes\BooleanGenerator.cs" />
     <Compile Include="PrimitiveTypes\ByteGenerator.cs" />
     <Compile Include="IGeneratable.cs" />

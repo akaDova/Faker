@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GeneratorLib.PrimitiveTypes
 {
-    class ByteGenerator : IGeneratable<byte>
+    public class ByteGenerator : IGeneratable<byte>
     {
         public byte GenerateValue()
         {

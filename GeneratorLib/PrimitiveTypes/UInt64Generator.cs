@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GeneratorLib.PrimitiveTypes
 {
-    class UInt64Generator : IGeneratable<ulong>
+    public class UInt64Generator : IGeneratable<ulong>
     {
         public ulong GenerateValue()
         {

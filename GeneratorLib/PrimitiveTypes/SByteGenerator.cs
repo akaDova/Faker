@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GeneratorLib
 {
-    class SByteGenerator : IGeneratable<sbyte>
+    public class SByteGenerator : IGeneratable<sbyte>
     {
         public sbyte GenerateValue()
         {

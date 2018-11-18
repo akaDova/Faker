@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GeneratorLib.PrimitiveTypes
 {
-    class BooleanGenerator: IGeneratable<bool>
+    public class BooleanGenerator: IGeneratable<bool>
     {
         public Type GeneratableType
         {

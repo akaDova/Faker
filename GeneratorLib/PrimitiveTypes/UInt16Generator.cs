@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GeneratorLib.PrimitiveTypes
 {
-    class UInt16Generator: IGeneratable<ushort>
+    public class UInt16Generator: IGeneratable<ushort>
     {
         public ushort GenerateValue()
         {

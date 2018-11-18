@@ -38,6 +38,7 @@ namespace GeneratorLib
                 Add(new SingleGenerator());
                 Add(new DoubleGenerator());
                 Add(new CharGenerator());
+                Add(new StringGenerator());
                 Add(new UriGenerator());
             }
             catch
