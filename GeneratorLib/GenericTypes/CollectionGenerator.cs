@@ -27,6 +27,8 @@ namespace GeneratorLib.GenericTypes
 
             byte listSize = (byte)generators.GenerateValue<byte>(typeof(byte));
             MethodInfo add = typeof(L).GetMethod("Add");
+            if (add == null)
+                return result;
             for (int i = 0; i < listSize; i++)
             {              
                 add.Invoke(result, new object[] { generator.GenerateValue() });

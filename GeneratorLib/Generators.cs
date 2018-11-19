@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 using GeneratorLib.CustomTypes;
+using GeneratorLib.GenericTypes;
 using GeneratorLib.PrimitiveTypes;
 using GeneratorLib.StringType;
 
 namespace GeneratorLib
 {
-    class Generators
+    public class Generators
     {
         private Dictionary<Type, object> supportedGenerators;
         private void Add<T>(IGeneratable<T> generator)
@@ -52,6 +54,13 @@ namespace GeneratorLib
             return supportedGenerators.ContainsKey(type);
         }
 
+        public object GetGeneratedValue(Type type)
+        {
+            return this.GetType().GetMethod("GenerateValue")
+                .MakeGenericMethod(type)
+                .Invoke(this, new object[] { type });
+        }
+
         public object GenerateValue<T>(Type type)
         {
             IGeneratable<T> generator;
@@ -76,3 +85,11 @@ namespace GeneratorLib
 
     }
 }
+
+//public static class TypeExt
+//{
+//    public static MethodInfo GetGenericMethod(this Type type, string name)
+//    {
+        
+//    }
+//}

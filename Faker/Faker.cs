@@ -4,12 +4,16 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-
+using GeneratorLib;
+using GeneratorLib.GenericTypes;
 
 namespace FakerLib
 {
     public class Faker
     {
+        readonly Generators generators = new Generators();
+        
+
         public Faker() { }
 
         public T Create<T>()
@@ -25,13 +29,35 @@ namespace FakerLib
         private object Create(Type type)
         {
             object creationResult = null;
+           
+            if (type.IsGenericType)
+            {
+                Type firstGenericArg = null;
+                if (type.GetGenericArguments().Length >= 1)
+                    firstGenericArg = type.GetGenericArguments().First();
+                bool res = typeof(ICollection<>).MakeGenericType(firstGenericArg).IsAssignableFrom(type);
+                if (type.IsConstructedGenericType
+                        && generators.Has(type.GetGenericArguments().First())
+                        && res)
+                {
 
-            if (type.IsPrimitive)
+                    Type collectionGeneratorClosed = typeof(CollectionGenerator<,>)
+                        .MakeGenericType(type.GetGenericArguments().First(), type);
+                    creationResult = collectionGeneratorClosed.GetMethod("GenerateValue")
+                        .Invoke(Activator.CreateInstance(collectionGeneratorClosed), null);
+                }
+            }
+            
+            else if (type.IsPrimitive && generators.Has(type))
+                creationResult = generators.GetGeneratedValue(type);
+                    
+           
+                //creationResult = generators.GenerateValue<)>(type);
 
             // check random value generator (built-in plugins)
-
+            
             // check & pick constructor 
-            if (/*condition*/true)
+            else if (/*condition*/true)
             {
                 (ConstructorInfo constructor, int paramCount) = type.GetConstructors()
                       .Select(ci => (ci: ci, paramCount: ci.GetParameters().Length))
@@ -58,27 +84,11 @@ namespace FakerLib
             }
 
             // check value type
-            if (type.IsValueType)
+            else if (type.IsValueType)
                 creationResult = Activator.CreateInstance(type);
 
             return creationResult;
         }
-        
-        
-        V GenerateRandomValue<V>(IGeneratable<V> Generator)
-        {
-            return Generator.GenerateValue();
-        }
-
- 
-
-    }
-
-
-
-    interface IGeneratable<T>
-    {
-        T GenerateValue();
     }
 }
 
