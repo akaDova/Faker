@@ -14,6 +14,7 @@ namespace FakerLib
         readonly Generators generators = new Generators();
         
 
+
         public Faker() { }
 
         public T Create<T>()
@@ -50,35 +51,61 @@ namespace FakerLib
             
             else if (type.IsPrimitive && generators.Has(type))
                 creationResult = generators.GetGeneratedValue(type);
-                    
-           
-                //creationResult = generators.GenerateValue<)>(type);
+            else if (type.IsValueType && generators.Has(type))
+                creationResult = generators.GetGeneratedValue(type);
+            else if (type.IsClass && generators.Has(type))
+                creationResult = generators.GetGeneratedValue(type);
+ 
+
+            //creationResult = generators.GenerateValue<)>(type);
 
             // check random value generator (built-in plugins)
-            
+
             // check & pick constructor 
-            else if (/*condition*/true)
+            else if (type.IsClass)
             {
-                (ConstructorInfo constructor, int paramCount) = type.GetConstructors()
-                      .Select(ci => (ci: ci, paramCount: ci.GetParameters().Length))
-                      .OrderBy(tuple => tuple.paramCount).Last();
-
-                if (paramCount == 0)
+                ConstructorInfo[] constructors = type.GetConstructors();
+                if (constructors.Length >= 1)
                 {
+                    (ConstructorInfo constructor, int paramCount) = type.GetConstructors()
+                         .Select(ci => (ci: ci, paramCount: ci.GetParameters().Length))
+                         .OrderBy(tuple => tuple.paramCount).Last();
 
-                }
-                else
-                {
-                    var paramList = new List<object>();
-
-                    foreach (var parameterInfo in constructor.GetParameters())
+                    if (paramCount == 0)
                     {
-                        // 
-                        paramList.Add(Create(parameterInfo.ParameterType));
+                        creationResult = constructor.Invoke(null);
+                        FieldInfo[] fields = type.GetFields();
+                        if (fields.Length > 0)
+                        {
+                            foreach (var field in fields)
+                            {
+                                field.SetValue(creationResult, Create(field.GetType()));
+                            }
+                        }
+
+                        PropertyInfo[] properties = type.GetProperties();
+                        if(properties.Length > 0)
+                        {
+                            foreach (var property in properties)
+                            {
+                                property.SetValue(creationResult, Create(property.GetType()));
+                            }
+                        }
                     }
-                    // TODO: check for exception
-                    creationResult = constructor.Invoke(paramList.ToArray());
+                    else
+                    {
+                        var paramList = new List<object>();
+
+                        foreach (var parameterInfo in constructor.GetParameters())
+                        {
+                            
+                            paramList.Add(Create(parameterInfo.ParameterType));
+                        }
+                        // TODO: check for exception
+                        creationResult = constructor.Invoke(paramList.ToArray());
+                    }
                 }
+               
 
                 
             }

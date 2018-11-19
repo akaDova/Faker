@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace FakerUnitTest
 {
-    class TestClass
+    class PrivateCtorTestClass
     {
-        public TestClass()
+        private PrivateCtorTestClass()
         {
 
         }
