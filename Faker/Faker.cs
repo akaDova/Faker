@@ -12,7 +12,7 @@ namespace FakerLib
     public class Faker
     {
         readonly Generators generators = new Generators();
-        
+        readonly Stack<Type> generatedTypes = new Stack<Type>();
 
 
         public Faker() { }
@@ -29,8 +29,11 @@ namespace FakerLib
  
         private object Create(Type type)
         {
+            
             object creationResult = null;
-           
+            if (generatedTypes.Contains(type))
+                return creationResult;
+            generatedTypes.Push(type);
             if (type.IsGenericType)
             {
                 Type firstGenericArg = null;
@@ -79,7 +82,7 @@ namespace FakerLib
                         {
                             foreach (var field in fields)
                             {
-                                field.SetValue(creationResult, Create(field.GetType()));
+                                field.SetValue(creationResult, Create(field.FieldType));
                             }
                         }
 
@@ -88,7 +91,7 @@ namespace FakerLib
                         {
                             foreach (var property in properties)
                             {
-                                property.SetValue(creationResult, Create(property.GetType()));
+                                property.SetValue(creationResult, Create(property.PropertyType));
                             }
                         }
                     }
@@ -104,16 +107,15 @@ namespace FakerLib
                         // TODO: check for exception
                         creationResult = constructor.Invoke(paramList.ToArray());
                     }
+                    
                 }
-               
-
-                
+                           
             }
 
             // check value type
             else if (type.IsValueType)
                 creationResult = Activator.CreateInstance(type);
-
+            generatedTypes.Pop();
             return creationResult;
         }
     }

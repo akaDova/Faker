@@ -60,7 +60,12 @@ namespace FakerUnitTest
         }
 
         [TestMethod]
-        public void 
+        public void CycleDependseTest()
+        {
+            Faker faker = new Faker();
+            CycleDependseFooTestClass foo = faker.Create<CycleDependseFooTestClass>();
+            Assert.IsTrue(foo.bar.foo == null);
+        }
 
     }
 }
