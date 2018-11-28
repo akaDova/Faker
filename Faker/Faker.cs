@@ -46,15 +46,8 @@ namespace FakerLib
 
         public Faker()
         {
-            try
-            {
-                LoadPluginGenerators();
-            }
-            catch (Exception e)
-            {
-                
-            }
-            
+            LoadPluginGenerators();
+      
         }
 
         public T Create<T>()
@@ -99,12 +92,6 @@ namespace FakerLib
             else if (type.IsClass && generators.Has(type))
                 creationResult = generators.GetGeneratedValue(type);
  
-
-            //creationResult = generators.GenerateValue<)>(type);
-
-            // check random value generator (built-in plugins)
-
-            // check & pick constructor 
             else if (type.IsClass)
             {
                 ConstructorInfo[] constructors = type.GetConstructors();
@@ -156,7 +143,7 @@ namespace FakerLib
                            
             }
 
-            // check value type
+
             else if (type.IsValueType)
                 creationResult = Activator.CreateInstance(type);
             generatedTypes.Pop();

@@ -40,27 +40,23 @@ namespace GeneratorLib
         public Generators()
         {
             supportedGenerators = new Dictionary<Type, object>();
-            try
-            {
-                Add(new BooleanGenerator());
-                Add(new ByteGenerator());
-                Add(new SByteGenerator());
-                Add(new UInt16Generator());
-                Add(new Int16Generator());
-                Add(new UInt32Generator());
-                Add(new Int32Generator());
-                Add(new UInt64Generator());
-                Add(new Int64Generator());
-                Add(new SingleGenerator());
-                Add(new DoubleGenerator());
-                Add(new CharGenerator());
-                //Add(new StringGenerator());
-                //Add(new UriGenerator());
-            }
-            catch
-            {
 
-            }
+            Add(new BooleanGenerator());
+            Add(new ByteGenerator());
+            Add(new SByteGenerator());
+            Add(new UInt16Generator());
+            Add(new Int16Generator());
+            Add(new UInt32Generator());
+            Add(new Int32Generator());
+            Add(new UInt64Generator());
+            Add(new Int64Generator());
+            Add(new SingleGenerator());
+            Add(new DoubleGenerator());
+            Add(new CharGenerator());
+            //Add(new StringGenerator());
+            //Add(new UriGenerator());
+
+
         }
 
         public bool Has(Type type)
