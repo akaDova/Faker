@@ -8,9 +8,11 @@ namespace GeneratorLib.PrimitiveTypes
 {
     public class UInt64Generator : IGeneratable<ulong>
     {
+        private Random random = new Random();
+
         public ulong GenerateValue()
         {
-            var random = new Random();
+            
             return (ulong)(random.NextDouble() * ulong.MaxValue);
         }
     }

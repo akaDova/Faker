@@ -15,40 +15,66 @@ namespace FakerUnitTest
     {
 
         private Faker faker;
+
+        [TestInitialize]
+        public void Setup()
+        {
+            faker = new Faker();
+        }
+
+        
         [TestMethod]
         public void GenericCreationTest()
-        {
-            Generators generators = new Generators();
-            Type type = typeof(List<int>);
-            int kek = (int)generators.GetGeneratedValue(typeof(int));
-            //List<int> val = (List<int>)generators.GetType().GetMethod("GenerateValue<>")
-            //    .MakeGenericMethod(type).Invoke(generators, new object[] { type });
-            //CollectionGenerator<int, List<int>> collectionGenerator1
-            //    = new CollectionGenerator<int, List<int>>();
-            //List<int> list = collectionGenerator1.GenerateValue();
-            //CollectionGenerator<sbyte, List<sbyte>> collectionGenerator12
-            //    = new CollectionGenerator<sbyte, List<sbyte>>();
-            //List<sbyte> list2 = collectionGenerator12.GenerateValue();
-            //CollectionGenerator<string, HashSet<string>> collectionGenerator2 
-            //    = new CollectionGenerator<string, HashSet<string>>();
-            //HashSet<string> listStr = collectionGenerator2.GenerateValue();
-            faker = new Faker();
-            faker.Create<List<int>>();
-            Assert.AreEqual(new List<int>().GetType(), faker.Create<List<int>>().GetType());         
-            
+        {                        
+
+            Assert.AreEqual(new List<int>().GetType(), faker.Create<List<int>>().GetType());
+     
+            Assert.AreEqual(new List<Uri>().GetType(), faker.Create<List<Uri>>().GetType());
+
+            Assert.AreEqual(new LinkedList<string>().GetType(), faker.Create<LinkedList<string>>().GetType());
+
         }
 
         [TestMethod]
-        public void Int32CreationTest()
-        {
+        public void IntCreationTest()
+        {                      
 
-           
-            faker = new Faker();
-
-            int intActualValue = faker.Create<Faker>().Create<Faker>().Create<Faker>()
-                .Create<Faker>().Create<Faker>().Create<Faker>().Create<int>();
+            int intActualValue = faker.Create<int>();
             Assert.IsTrue(int.MaxValue >= intActualValue && intActualValue >= int.MinValue);
-            
+
+            uint uintActualValue = faker.Create<uint>();
+            Assert.IsTrue(uint.MaxValue >= uintActualValue && uintActualValue >= uint.MinValue);
+
+            ulong ulongActualValue = faker.Create<ulong>();
+            Assert.IsTrue(ulong.MaxValue >= ulongActualValue && ulongActualValue >= ulong.MinValue);
+
+            long longActualValue = faker.Create<long>();
+            Assert.IsTrue(long.MaxValue >= longActualValue && longActualValue >= long.MinValue);
+
+            short shortActualValue = faker.Create<short>();
+            Assert.IsTrue(short.MaxValue >= shortActualValue && shortActualValue >= short.MinValue);
+
+            ushort ushortActualValue = faker.Create<ushort>();
+            Assert.IsTrue(ushort.MaxValue >= ushortActualValue && ushortActualValue >= ushort.MinValue);
+
+            byte byteActualValue = faker.Create<byte>();
+            Assert.IsTrue(byte.MaxValue >= byteActualValue && byteActualValue >= byte.MinValue);
+
+            sbyte sbyteActualValue = faker.Create<sbyte>();
+            Assert.IsTrue(sbyte.MaxValue >= sbyteActualValue && sbyteActualValue >= sbyte.MinValue);
+        }
+
+        [TestMethod]
+        public void FloatCreationTest()
+        {
+            float floatActualValue = faker.Create<float>();
+            Assert.IsTrue(float.MaxValue >= floatActualValue && floatActualValue >= float.MinValue);
+
+            double doubleActualValue = faker.Create<double>();
+            Assert.IsTrue(double.MaxValue >= doubleActualValue && doubleActualValue >= double.MinValue);
+
+            decimal decimalActualValue = faker.Create<decimal>();
+            Assert.IsTrue(decimal.MaxValue >= decimalActualValue && decimalActualValue >= decimal.MinValue);
         }
 
         [TestMethod]
@@ -65,10 +91,43 @@ namespace FakerUnitTest
         [TestMethod]
         public void CycleDependseTest()
         {
-            Faker faker = new Faker();
-            CycleDependseFooTestClass foo = faker.Create<CycleDependseFooTestClass>();
+            CycleDependenceFooTestClass foo = faker.Create<CycleDependenceFooTestClass>();
             Assert.IsTrue(foo.bar.foo == null);
+            Assert.AreEqual(typeof(CycleDependenceBarTestClass), foo.bar.GetType());
+            Assert.AreEqual(typeof(CycleDependenceFooTestClass), foo.GetType());
         }
 
+        [TestMethod]
+        public void FakerCreationTest()
+        {
+            Assert.AreEqual(faker.GetType(), faker.Create<Faker>().GetType());
+        }
+
+        [TestMethod]
+        public void SeveralCtorsTest()
+        {
+            SeveralCtorsTestClass severalCtorsExpected = new SeveralCtorsTestClass();
+            SeveralCtorsTestClass severalCtorsActual = faker.Create<SeveralCtorsTestClass>();
+
+            OneCtorTestClass oneCtor = new OneCtorTestClass();
+
+            Assert.AreEqual(severalCtorsExpected.GetType(), severalCtorsActual.GetType());
+            Assert.AreNotEqual(severalCtorsExpected.kek, severalCtorsActual.kek);
+            Assert.AreEqual(severalCtorsExpected.kek.GetType(), severalCtorsActual.kek.GetType());
+
+            Assert.AreEqual(oneCtor.kek, faker.Create<OneCtorTestClass>().kek);
+
+        }
+
+        [TestMethod]
+        public void SeveralFieldsTest()
+        {
+            var expectedValue = new SeveralFieldsTestClass();
+            SeveralFieldsTestClass actualValue = faker.Create<SeveralFieldsTestClass>();
+
+            Assert.AreEqual(expectedValue.GetType(), actualValue.GetType());
+            Assert.AreEqual(actualValue.oURI, actualValue.cURI);
+            Assert.AreEqual(expectedValue.rStr, actualValue.rStr);
+        }
     }
 }

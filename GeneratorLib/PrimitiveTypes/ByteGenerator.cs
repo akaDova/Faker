@@ -8,9 +8,11 @@ namespace GeneratorLib.PrimitiveTypes
 {
     public class ByteGenerator : IGeneratable<byte>
     {
+        private Random random = new Random();
+
         public byte GenerateValue()
         {
-            var random = new Random();
+            
             return (byte)random.Next(byte.MaxValue);
         }
     }

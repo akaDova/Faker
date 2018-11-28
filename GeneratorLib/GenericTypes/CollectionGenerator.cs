@@ -13,9 +13,14 @@ namespace GeneratorLib.GenericTypes
     {
         readonly Generators generators;
 
-        public CollectionGenerator()
+        public CollectionGenerator() : this(new Generators())
         {
-            generators = new Generators();
+            //generators = new Generators();
+        }
+
+        public CollectionGenerator(Generators generators)
+        {
+            this.generators = generators;
         }
 
         public L GenerateValue()

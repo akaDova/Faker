@@ -22,21 +22,23 @@ namespace FakerLib
             
         private void LoadPluginGenerators()
         {
-            var generatorsList = (from file in Directory.GetFiles(pluginsPath, "*.dll")
-                        select Assembly.LoadFrom(file) into assembly
-                        select assembly.GetTypes() into types
-                        from type in types
-                        from i in (
-                            from i in type.GetInterfaces()
-                            select i
-                        )
-                        where i == (typeof(IExportable))
-                        select Activator.CreateInstance(type) as IExportable into generator
-                        select generator).ToList();
+            var generatorsList = (
+                from file in Directory.GetFiles(pluginsPath, "*.dll")
+                select Assembly.LoadFrom(file) into assembly
+                select assembly.GetTypes() into types
+                from type in types
+                from i in (
+                    from i in type.GetInterfaces()
+                    select i
+                )
+                where i == (typeof(IExportable))
+                select Activator.CreateInstance(type) as IExportable into generator
+                select generator
+             ).ToList();
 
             foreach (var gen in generatorsList)
             {
-                generators.Add(gen.GetGenerator());
+                generators.Add(gen.ExportType, gen.GetGenerator());
             }
          
 
@@ -86,7 +88,7 @@ namespace FakerLib
                     Type collectionGeneratorClosed = typeof(CollectionGenerator<,>)
                         .MakeGenericType(type.GetGenericArguments().First(), type);
                     creationResult = collectionGeneratorClosed.GetMethod("GenerateValue")
-                        .Invoke(Activator.CreateInstance(collectionGeneratorClosed), null);
+                        .Invoke(Activator.CreateInstance(collectionGeneratorClosed, generators), null);
                 }
             }
             
@@ -112,11 +114,7 @@ namespace FakerLib
                         (from ctor in constructors
                          select (ctor, ctor.GetParameters().Length) into tuple
                          orderby tuple.Length
-                         select tuple).Last();
-                        
-                    //(ConstructorInfo constructor, int paramCount) = type.GetConstructors()
-                    //     .Select(ci => (ci: ci, paramCount: ci.GetParameters().Length))
-                    //     .OrderBy(tuple => tuple.paramCount).Last();
+                         select tuple).Last();                       
 
                     if (paramCount == 0)
                     {
@@ -126,7 +124,8 @@ namespace FakerLib
                         {
                             foreach (var field in fields)
                             {
-                                field.SetValue(creationResult, Create(field.FieldType));
+                                if (!field.IsInitOnly)
+                                    field.SetValue(creationResult, Create(field.FieldType));
                             }
                         }
 
@@ -135,7 +134,8 @@ namespace FakerLib
                         {
                             foreach (var property in properties)
                             {
-                                property.SetValue(creationResult, Create(property.PropertyType));
+                                if (property.CanWrite)
+                                    property.SetValue(creationResult, Create(property.PropertyType));
                             }
                         }
                     }
@@ -148,7 +148,7 @@ namespace FakerLib
                             
                             paramList.Add(Create(parameterInfo.ParameterType));
                         }
-                        // TODO: check for exception
+                        
                         creationResult = constructor.Invoke(paramList.ToArray());
                     }
                     

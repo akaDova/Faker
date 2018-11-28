@@ -20,7 +20,9 @@ namespace UriGeneratorLib
             string guidString = Convert.ToBase64String(g.ToByteArray());
             guidString = guidString.Replace("=", "");
             guidString = guidString.Replace("+", "");
-            return new Uri($"http://{guidString}.com");
+            guidString = guidString.Replace("/", "");
+            var res = new Uri($"http://google.com/{guidString}");
+            return res;
         }
     }
 }

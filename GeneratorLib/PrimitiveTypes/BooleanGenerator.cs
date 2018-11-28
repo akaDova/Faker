@@ -8,14 +8,11 @@ namespace GeneratorLib.PrimitiveTypes
 {
     public class BooleanGenerator: IGeneratable<bool>
     {
-        public Type GeneratableType
-        {
-            get => typeof(bool);
-        }
+        private Random random = new Random();
 
         public bool GenerateValue()
         {
-            var random = new Random();
+            
             return random.Next(1) == 1;
         }
 

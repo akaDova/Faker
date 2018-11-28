@@ -8,9 +8,11 @@ namespace GeneratorLib.PrimitiveTypes
 {
     public class CharGenerator : IGeneratable<char>
     {
+        private Random random = new Random();
+
         public char GenerateValue()
         {
-            var random = new Random();
+            
             return (char)random.Next(char.MinValue, char.MaxValue);        
         }
     }

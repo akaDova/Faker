@@ -48,9 +48,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CycleDependenseBarTestClass.cs" />
-    <Compile Include="CycleDependseFooTestClass.cs" />
+    <Compile Include="CycleDependenceBarTestClass.cs" />
+    <Compile Include="CycleDependenceFooTestClass.cs" />
+    <Compile Include="OneCtorTestClass.cs" />
     <Compile Include="PrivateCtorTestClass.cs" />
+    <Compile Include="SeveralCtorsTestClass.cs" />
+    <Compile Include="SeveralFieldsTestClass.cs" />
     <Compile Include="UnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

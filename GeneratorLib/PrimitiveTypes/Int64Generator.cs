@@ -8,9 +8,11 @@ namespace GeneratorLib.PrimitiveTypes
 {
     public class Int64Generator : IGeneratable<long>
     {
+        private Random random = new Random();
+
         public long GenerateValue()
         {
-            var random = new Random();
+            
             return (long)(random.NextDouble() * long.MaxValue);
         }
     }

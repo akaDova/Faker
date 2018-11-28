@@ -8,9 +8,11 @@ namespace GeneratorLib.PrimitiveTypes
 {
     public class DecimalGenerator : IGeneratable<decimal>
     {
+        private Random random = new Random();
+
         public decimal GenerateValue()
         {
-            var random = new Random();
+            
             return (decimal)(random.NextDouble() * (double)decimal.MaxValue);         
         }
     }

@@ -9,14 +9,12 @@ namespace StringGeneratorLib
 {
     public class StringGenerator : IGeneratable<string>
     {
-        public StringGenerator()
-        {
+        private Random random = new Random();
 
-        }
 
         public string GenerateValue()
         {
-            var random = new Random();
+            
             byte[] bytes = new byte[random.Next(byte.MaxValue)];
 
             return Convert.ToBase64String(bytes.Select(val => (byte)random.Next()).ToArray());

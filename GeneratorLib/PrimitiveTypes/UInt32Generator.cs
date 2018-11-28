@@ -8,9 +8,11 @@ namespace GeneratorLib.PrimitiveTypes
 {
     public class UInt32Generator : IGeneratable<uint>
     {
+        private Random random = new Random();
+
         public uint GenerateValue()
         {
-            var random = new Random();
+            
             return (uint)random.Next();        
         }
     }

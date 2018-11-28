@@ -8,9 +8,11 @@ namespace GeneratorLib.PrimitiveTypes
 {
     public class UInt16Generator: IGeneratable<ushort>
     {
+        private Random random = new Random();
+
         public ushort GenerateValue()
         {
-            var random = new Random();
+            
             return (ushort)random.Next(ushort.MaxValue);
         }
     }

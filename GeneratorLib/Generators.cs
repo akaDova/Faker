@@ -14,21 +14,23 @@ namespace GeneratorLib
     public class Generators
     {
         private Dictionary<Type, object> supportedGenerators;
-        public void Add<T>(IGeneratable<T> generator)
+        private void Add<T>(IGeneratable<T> generator)
         {
             if (!Has(typeof(T)) && !generator.GetType().IsInterface)
                 supportedGenerators.Add(typeof(T), generator);
         }
 
-        public void Add(object generator)
+        public void Add(Type type, object generator)
         {
             Type generatorType = generator.GetType();
             var res = (from i in generator.GetType().GetInterfaces()
                        where i.GetGenericTypeDefinition() == typeof(IGeneratable<>)
+                       where i.GenericTypeArguments.Length == 1 
+                            && i.GenericTypeArguments.First() == type
                        select i).Any();
 
-            if (res)
-                supportedGenerators.Add(generatorType, generator);
+            if (!Has(type) && res)
+                supportedGenerators.Add(type, generator);
             
         }
         void Reset()
@@ -51,8 +53,8 @@ namespace GeneratorLib
                 Add(new Int64Generator());
                 Add(new SingleGenerator());
                 Add(new DoubleGenerator());
-                //Add(new CharGenerator());
-                Add(new StringGenerator());
+                Add(new CharGenerator());
+                //Add(new StringGenerator());
                 //Add(new UriGenerator());
             }
             catch
@@ -98,10 +100,3 @@ namespace GeneratorLib
     }
 }
 
-//public static class TypeExt
-//{
-//    public static MethodInfo GetGenericMethod(this Type type, string name)
-//    {
-        
-//    }
-//}

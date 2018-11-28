@@ -8,9 +8,11 @@ namespace GeneratorLib.PrimitiveTypes
 {
     public class SingleGenerator : IGeneratable<float>
     {
+        private Random random = new Random();
+
         public float GenerateValue()
         {
-            var random = new Random();
+           
             return (float)random.NextDouble();
         }
     }

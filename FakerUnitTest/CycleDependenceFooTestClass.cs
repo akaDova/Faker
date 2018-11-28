@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace FakerUnitTest
 {
-    class CycleDependenseBarTestClass
+    class CycleDependenceFooTestClass
     {
-        public CycleDependseFooTestClass foo;
+        public CycleDependenceBarTestClass bar;
     }
 }

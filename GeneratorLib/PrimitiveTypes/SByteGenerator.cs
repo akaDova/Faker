@@ -8,9 +8,11 @@ namespace GeneratorLib
 {
     public class SByteGenerator : IGeneratable<sbyte>
     {
+        private Random random = new Random();
+
         public sbyte GenerateValue()
         {
-            var random = new Random();
+           
             return (sbyte)random.Next(sbyte.MinValue, sbyte.MaxValue);
         }
     }
