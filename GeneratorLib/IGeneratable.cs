@@ -15,8 +15,8 @@ namespace GeneratorLib
         //}
     }
 
-    interface IGeneratable
-    {
-        object GenerateValue();
-    }
+    //interface IGeneratable
+    //{
+    //    object GenerateValue();
+    //}
 }

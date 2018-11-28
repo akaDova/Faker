@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -9,13 +10,50 @@ using GeneratorLib.GenericTypes;
 
 namespace FakerLib
 {
+
+    
+
     public class Faker
     {
         readonly Generators generators = new Generators();
         readonly Stack<Type> generatedTypes = new Stack<Type>();
 
+        static string pluginsPath = @"plugins";
+            
+        private void LoadPluginGenerators()
+        {
+            var generatorsList = (from file in Directory.GetFiles(pluginsPath, "*.dll")
+                        select Assembly.LoadFrom(file) into assembly
+                        select assembly.GetTypes() into types
+                        from type in types
+                        from i in (
+                            from i in type.GetInterfaces()
+                            select i
+                        )
+                        where i == (typeof(IExportable))
+                        select Activator.CreateInstance(type) as IExportable into generator
+                        select generator).ToList();
 
-        public Faker() { }
+            foreach (var gen in generatorsList)
+            {
+                generators.Add(gen.GetGenerator());
+            }
+         
+
+        }
+
+        public Faker()
+        {
+            try
+            {
+                LoadPluginGenerators();
+            }
+            catch (Exception e)
+            {
+                
+            }
+            
+        }
 
         public T Create<T>()
         {
@@ -70,9 +108,15 @@ namespace FakerLib
                 ConstructorInfo[] constructors = type.GetConstructors();
                 if (constructors.Length >= 1)
                 {
-                    (ConstructorInfo constructor, int paramCount) = type.GetConstructors()
-                         .Select(ci => (ci: ci, paramCount: ci.GetParameters().Length))
-                         .OrderBy(tuple => tuple.paramCount).Last();
+                    (ConstructorInfo constructor, int paramCount) =
+                        (from ctor in constructors
+                         select (ctor, ctor.GetParameters().Length) into tuple
+                         orderby tuple.Length
+                         select tuple).Last();
+                        
+                    //(ConstructorInfo constructor, int paramCount) = type.GetConstructors()
+                    //     .Select(ci => (ci: ci, paramCount: ci.GetParameters().Length))
+                    //     .OrderBy(tuple => tuple.paramCount).Last();
 
                     if (paramCount == 0)
                     {

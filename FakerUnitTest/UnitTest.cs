@@ -45,8 +45,10 @@ namespace FakerUnitTest
            
             faker = new Faker();
 
-            int intActualValue = faker.Create<int>();
+            int intActualValue = faker.Create<Faker>().Create<Faker>().Create<Faker>()
+                .Create<Faker>().Create<Faker>().Create<Faker>().Create<int>();
             Assert.IsTrue(int.MaxValue >= intActualValue && intActualValue >= int.MinValue);
+            
         }
 
         [TestMethod]
@@ -57,6 +59,7 @@ namespace FakerUnitTest
             faker = new Faker();
    
             Assert.IsTrue(faker.Create<PrivateCtorTestClass>() == null);
+            Assert.IsFalse(faker.Create<PrivateCtorTestClass>() != null);
         }
 
         [TestMethod]
